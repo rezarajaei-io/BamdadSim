@@ -132,8 +132,6 @@
     <Compile Include="DTO\SmsViewModel.cs" />
     <Compile Include="DTO\TarrtifViewModel.cs" />
     <Compile Include="DTO\UsersViewModel.cs" />
-    <Compile Include="IServives\IGenericRepositoryService.cs" />
-    <Compile Include="Services\GenericRepository.cs" />
     <Compile Include="IServives\ICallService.cs" />
     <Compile Include="IServives\IChargeService.cs" />
     <Compile Include="IServives\ILoginService.cs" />

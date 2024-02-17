@@ -1,8 +1,8 @@
 ﻿using Repository.DTO;
 using System.Web.Mvc;
 using Repository.Services;
-using DataLayer;
-using DataLayer.Models;
+
+
 
 namespace BamdadCell.Controllers
 {
@@ -37,14 +37,7 @@ namespace BamdadCell.Controllers
 
                 var sendersimId = _simservice.GetSimIdByPersonId(SenderAccountId);
                 var Credit = _simservice.IsSimCredit(sendersimId);
-
-
-                //ViewBag.ChargeInfo = _chargeservice.ShowCharges();
-                BamdadSimEntities context = new BamdadSimEntities();
-                GenericRepository<DataLayer.Models.Charge, Repository.DTO.ShowChargesVIewModel> repo = new GenericRepository<DataLayer.Models.Charge, Repository.DTO.ShowChargesVIewModel>(context);
-                //ViewBag.ChargeInfo = repo.GetById(2);
                 ViewBag.ChargeInfo = _chargeservice.ShowCharges();
-                //ViewBag.ChargeInfo = repo.ShowGrid();
                 if (Credit)
                 {
                     ViewBag.SenderNumbers = _simservice.GetSenderNumbers(SenderAccountId);

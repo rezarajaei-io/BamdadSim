@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using DataLayer.Models;
 using Repository.Services;
 
 namespace BamdadCell.Areas.Admin.Controllers
@@ -16,12 +15,12 @@ namespace BamdadCell.Areas.Admin.Controllers
         // GET: Admin/Charges
         public ActionResult Index()
         {
-            BamdadSimEntities context = new BamdadSimEntities();
-            //var charglist = _chargeServices.GetCharges();
-            GenericRepository<DataLayer.Models.Charge, Repository.DTO.ShowChargesVIewModel> repo = new GenericRepository<DataLayer.Models.Charge, Repository.DTO.ShowChargesVIewModel>(context);
+            
+            var charglist = _chargeServices.GetCharges();
+            
 
-            var chargelist = repo.ShowGrid();
-            return View(chargelist);
+            
+            return View(charglist);
         }
 
         // GET: Users/Details/5
@@ -43,14 +42,7 @@ namespace BamdadCell.Areas.Admin.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-                //var result = _chargeServices.AddCharge(charge);
-
-                BamdadSimEntities context = new BamdadSimEntities();
-                //var charglist = _chargeServices.GetCharges();
-                GenericRepository<DataLayer.Models.Charge, Repository.DTO.ShowChargesVIewModel> repo = new GenericRepository<DataLayer.Models.Charge, Repository.DTO.ShowChargesVIewModel>(context);
-
-                repo.Add(charge);
+                var result = _chargeServices.AddCharge(charge);
                 return RedirectToAction("Index");
             }
             catch
