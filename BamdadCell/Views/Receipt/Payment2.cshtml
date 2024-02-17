@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Repository.DTO.ShowReceiptViewModel>
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>پرداخت قبض</h2>
+
+
+
+
+
+<hr />
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SimCart)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <tr>
+                <td>
+                    <input value="@(item.SimCart)" name="SimCart" />
+                </td>
+                <td>
+                    <input value="@(item.Price)" name="Price" />
+                </td>
+                <td>
+                    <input value="@(item.Owner)" name="Owner" />
+                </td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="پرداخت" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

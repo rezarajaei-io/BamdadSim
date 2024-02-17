@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Repository.DTO.BuySimViewModel>
+
+@{
+    ViewBag.Title = "BuySim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SimNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SimType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <tr>
+                <td>
+
+                    <input value="@(item.SimNumber)" name="SimNumber" readonly style="border:0px;" />
+                </td>
+                <td>
+                    @if (item.SimType == "True")
+                    {
+
+                        <input value="اعتباری" name="SimType" readonly style="border:0px;" />
+                    }
+                    else
+                    {
+                        <input value="دائمی" name="SimType" readonly style="border:0px;" />
+
+                    }
+
+                </td>
+                <td>
+                    <input value="@(item.Price)" name="Price" readonly style="border:0px;" />
+                </td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="پرداخت" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        }
+
+    }
+
+    </table>

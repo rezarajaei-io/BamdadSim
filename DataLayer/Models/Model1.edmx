@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BamdadSimModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="Call">
+          <Key>
+            <PropertyRef Name="CallId" />
+          </Key>
+          <Property Name="CallId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CallTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CallDuration" Type="int" Nullable="false" />
+          <Property Name="SenderId" Type="int" Nullable="false" />
+          <Property Name="ReciverId" Type="int" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Charge">
+          <Key>
+            <PropertyRef Name="ChargeId" />
+          </Key>
+          <Property Name="ChargeId" Type="int" Nullable="false" />
+          <Property Name="ChargePrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="ChargeStatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="ChargeSim">
+          <Key>
+            <PropertyRef Name="ChargeId" />
+          </Key>
+          <Property Name="ChargeId" Type="int" Nullable="false" />
+          <Property Name="SimId" Type="int" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Address" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Simcard">
+          <Key>
+            <PropertyRef Name="SimId" />
+          </Key>
+          <Property Name="SimId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonId" Type="int" />
+          <Property Name="SimActive" Type="bit" Nullable="false" />
+          <Property Name="Type" Type="bit" Nullable="false" />
+          <Property Name="SimBalance" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="SimPrice" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="SimReceipt">
+          <Key>
+            <PropertyRef Name="ReceiptId" />
+          </Key>
+          <Property Name="ReceiptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Time" Type="datetime" />
+          <Property Name="SimId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sms">
+          <Key>
+            <PropertyRef Name="SmsId" />
+          </Key>
+          <Property Name="SmsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SmsTitle" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="SmsContent" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="SenderId" Type="int" Nullable="false" />
+          <Property Name="ReciverId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tariff">
+          <Key>
+            <PropertyRef Name="TariffId" />
+          </Key>
+          <Property Name="TariffId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CallTariff" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="SmsTarrif" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <Association Name="FK_Account_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Call_Person">
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="1" />
+          <End Role="Call" Type="Self.Call" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Call">
+              <PropertyRef Name="ReciverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Call_Person1">
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="1" />
+          <End Role="Call" Type="Self.Call" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Call">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChargeSim_Charge">
+          <End Role="Charge" Type="Self.Charge" Multiplicity="1" />
+          <End Role="ChargeSim" Type="Self.ChargeSim" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Charge">
+              <PropertyRef Name="ChargeId" />
+            </Principal>
+            <Dependent Role="ChargeSim">
+              <PropertyRef Name="ChargeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChargeSim_Simcard">
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="0..1" />
+          <End Role="ChargeSim" Type="Self.ChargeSim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="ChargeSim">
+              <PropertyRef Name="SimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Simcard_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Simcard">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SimReceipt_Simcard">
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="1" />
+          <End Role="SimReceipt" Type="Self.SimReceipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="SimReceipt">
+              <PropertyRef Name="SimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sms_Simcard">
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="1" />
+          <End Role="Sms" Type="Self.Sms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Sms">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sms_Simcard1">
+          <End Role="Simcard" Type="Self.Simcard" Multiplicity="1" />
+          <End Role="Sms" Type="Self.Sms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Sms">
+              <PropertyRef Name="ReciverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BamdadSimModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Call" EntityType="Self.Call" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Charge" EntityType="Self.Charge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChargeSim" EntityType="Self.ChargeSim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Simcard" EntityType="Self.Simcard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SimReceipt" EntityType="Self.SimReceipt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sms" EntityType="Self.Sms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tariff" EntityType="Self.Tariff" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Person" Association="Self.FK_Account_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Role" Association="Self.FK_Account_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Call_Person" Association="Self.FK_Call_Person">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Call" EntitySet="Call" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Call_Person1" Association="Self.FK_Call_Person1">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Call" EntitySet="Call" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChargeSim_Charge" Association="Self.FK_ChargeSim_Charge">
+            <End Role="Charge" EntitySet="Charge" />
+            <End Role="ChargeSim" EntitySet="ChargeSim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChargeSim_Simcard" Association="Self.FK_ChargeSim_Simcard">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="ChargeSim" EntitySet="ChargeSim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Simcard_Person" Association="Self.FK_Simcard_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Simcard" EntitySet="Simcard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SimReceipt_Simcard" Association="Self.FK_SimReceipt_Simcard">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="SimReceipt" EntitySet="SimReceipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sms_Simcard" Association="Self.FK_Sms_Simcard">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Sms" EntitySet="Sms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sms_Simcard1" Association="Self.FK_Sms_Simcard1">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Sms" EntitySet="Sms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BamdadSimModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BamdadSimEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Role" EntityType="BamdadSimModel.Role" />
+          <EntitySet Name="Person" EntityType="BamdadSimModel.Person" />
+          <EntitySet Name="Account" EntityType="BamdadSimModel.Account" />
+          <AssociationSet Name="FK_Account_Person" Association="BamdadSimModel.FK_Account_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Role" Association="BamdadSimModel.FK_Account_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <EntitySet Name="Sms" EntityType="BamdadSimModel.Sms" />
+          <EntitySet Name="Charge" EntityType="BamdadSimModel.Charge" />
+          <EntitySet Name="Tariff" EntityType="BamdadSimModel.Tariff" />
+          <EntitySet Name="ChargeSim" EntityType="BamdadSimModel.ChargeSim" />
+          <AssociationSet Name="FK_ChargeSim_Charge" Association="BamdadSimModel.FK_ChargeSim_Charge">
+            <End Role="Charge" EntitySet="Charge" />
+            <End Role="ChargeSim" EntitySet="ChargeSim" />
+          </AssociationSet>
+          <EntitySet Name="SimReceipt" EntityType="BamdadSimModel.SimReceipt" />
+          <EntitySet Name="Call" EntityType="BamdadSimModel.Call" />
+          <EntitySet Name="Simcard" EntityType="BamdadSimModel.Simcard" />
+          <AssociationSet Name="FK_Call_Person" Association="BamdadSimModel.FK_Call_Person">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Call" EntitySet="Call" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Call_Person1" Association="BamdadSimModel.FK_Call_Person1">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Call" EntitySet="Call" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChargeSim_Simcard" Association="BamdadSimModel.FK_ChargeSim_Simcard">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="ChargeSim" EntitySet="ChargeSim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Simcard_Person" Association="BamdadSimModel.FK_Simcard_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Simcard" EntitySet="Simcard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SimReceipt_Simcard" Association="BamdadSimModel.FK_SimReceipt_Simcard">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="SimReceipt" EntitySet="SimReceipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sms_Simcard" Association="BamdadSimModel.FK_Sms_Simcard">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Sms" EntitySet="Sms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sms_Simcard1" Association="BamdadSimModel.FK_Sms_Simcard1">
+            <End Role="Simcard" EntitySet="Simcard" />
+            <End Role="Sms" EntitySet="Sms" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="BamdadSimModel.FK_Account_Role" FromRole="Role" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="BamdadSimModel.FK_Account_Person" FromRole="Person" ToRole="Account" />
+          <NavigationProperty Name="Simcard" Relationship="BamdadSimModel.FK_Simcard_Person" FromRole="Person" ToRole="Simcard" />
+          </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="BamdadSimModel.FK_Account_Person" FromRole="Account" ToRole="Person" />
+          <NavigationProperty Name="Role" Relationship="BamdadSimModel.FK_Account_Role" FromRole="Account" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_Account_Person">
+          <End Type="BamdadSimModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="BamdadSimModel.Account" Role="Account" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Role">
+          <End Type="BamdadSimModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="BamdadSimModel.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Sms">
+          <Key>
+            <PropertyRef Name="SmsId" />
+          </Key>
+          <Property Name="SmsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SmsTitle" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SmsContent" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SenderId" Type="Int32" Nullable="false" />
+          <Property Name="ReciverId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Simcard" Relationship="BamdadSimModel.FK_Sms_Simcard" FromRole="Sms" ToRole="Simcard" />
+          <NavigationProperty Name="Simcard1" Relationship="BamdadSimModel.FK_Sms_Simcard1" FromRole="Sms" ToRole="Simcard" />
+          </EntityType>
+        <EntityType Name="Charge">
+          <Key>
+            <PropertyRef Name="ChargeId" />
+          </Key>
+          <Property Name="ChargeId" Type="Int32" Nullable="false" />
+          <Property Name="ChargePrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="ChargeStatus" Type="Boolean" />
+          <NavigationProperty Name="ChargeSim" Relationship="BamdadSimModel.FK_ChargeSim_Charge" FromRole="Charge" ToRole="ChargeSim" />
+        </EntityType>
+        <EntityType Name="Tariff">
+          <Key>
+            <PropertyRef Name="TariffId" />
+          </Key>
+          <Property Name="TariffId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CallTariff" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="SmsTarrif" Type="Decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="ChargeSim">
+          <Key>
+            <PropertyRef Name="ChargeId" />
+          </Key>
+          <Property Name="ChargeId" Type="Int32" Nullable="false" />
+          <Property Name="SimId" Type="Int32" />
+          <NavigationProperty Name="Charge" Relationship="BamdadSimModel.FK_ChargeSim_Charge" FromRole="ChargeSim" ToRole="Charge" />
+          <NavigationProperty Name="Simcard" Relationship="BamdadSimModel.FK_ChargeSim_Simcard" FromRole="ChargeSim" ToRole="Simcard" />
+        </EntityType>
+        <Association Name="FK_ChargeSim_Charge">
+          <End Type="BamdadSimModel.Charge" Role="Charge" Multiplicity="1" />
+          <End Type="BamdadSimModel.ChargeSim" Role="ChargeSim" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Charge">
+              <PropertyRef Name="ChargeId" />
+            </Principal>
+            <Dependent Role="ChargeSim">
+              <PropertyRef Name="ChargeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SimReceipt">
+          <Key>
+            <PropertyRef Name="ReceiptId" />
+          </Key>
+          <Property Name="ReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <Property Name="SimId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Simcard" Relationship="BamdadSimModel.FK_SimReceipt_Simcard" FromRole="SimReceipt" ToRole="Simcard" />
+        </EntityType>
+        <EntityType Name="Call">
+          <Key>
+            <PropertyRef Name="CallId" />
+          </Key>
+          <Property Name="CallId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CallTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CallDuration" Type="Int32" Nullable="false" />
+          <Property Name="SenderId" Type="Int32" Nullable="false" />
+          <Property Name="ReciverId" Type="Int32" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Simcard" Relationship="BamdadSimModel.FK_Call_Person" FromRole="Call" ToRole="Simcard" />
+          <NavigationProperty Name="Simcard1" Relationship="BamdadSimModel.FK_Call_Person1" FromRole="Call" ToRole="Simcard" />
+          </EntityType>
+        <EntityType Name="Simcard">
+          <Key>
+            <PropertyRef Name="SimId" />
+          </Key>
+          <Property Name="SimId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PersonId" Type="Int32" />
+          <Property Name="SimActive" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="Boolean" Nullable="false" />
+          <Property Name="SimBalance" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="SimPrice" Type="Decimal" Precision="18" Scale="3" />
+          <NavigationProperty Name="Call" Relationship="BamdadSimModel.FK_Call_Person" FromRole="Simcard" ToRole="Call" />
+          <NavigationProperty Name="Call1" Relationship="BamdadSimModel.FK_Call_Person1" FromRole="Simcard" ToRole="Call" />
+          <NavigationProperty Name="ChargeSim" Relationship="BamdadSimModel.FK_ChargeSim_Simcard" FromRole="Simcard" ToRole="ChargeSim" />
+          <NavigationProperty Name="Person" Relationship="BamdadSimModel.FK_Simcard_Person" FromRole="Simcard" ToRole="Person" />
+          <NavigationProperty Name="SimReceipt" Relationship="BamdadSimModel.FK_SimReceipt_Simcard" FromRole="Simcard" ToRole="SimReceipt" />
+          <NavigationProperty Name="Sms" Relationship="BamdadSimModel.FK_Sms_Simcard" FromRole="Simcard" ToRole="Sms" />
+          <NavigationProperty Name="Sms1" Relationship="BamdadSimModel.FK_Sms_Simcard1" FromRole="Simcard" ToRole="Sms" />
+        </EntityType>
+        <Association Name="FK_Call_Person">
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="1" />
+          <End Type="BamdadSimModel.Call" Role="Call" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Call">
+              <PropertyRef Name="ReciverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Call_Person1">
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="1" />
+          <End Type="BamdadSimModel.Call" Role="Call" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Call">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChargeSim_Simcard">
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="0..1" />
+          <End Type="BamdadSimModel.ChargeSim" Role="ChargeSim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="ChargeSim">
+              <PropertyRef Name="SimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Simcard_Person">
+          <End Type="BamdadSimModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Simcard">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SimReceipt_Simcard">
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="1" />
+          <End Type="BamdadSimModel.SimReceipt" Role="SimReceipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="SimReceipt">
+              <PropertyRef Name="SimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sms_Simcard">
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="1" />
+          <End Type="BamdadSimModel.Sms" Role="Sms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Sms">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sms_Simcard1">
+          <End Type="BamdadSimModel.Simcard" Role="Simcard" Multiplicity="1" />
+          <End Type="BamdadSimModel.Sms" Role="Sms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simcard">
+              <PropertyRef Name="SimId" />
+            </Principal>
+            <Dependent Role="Sms">
+              <PropertyRef Name="ReciverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BamdadSimModelStoreContainer" CdmEntityContainer="BamdadSimEntities">
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="BamdadSimModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Person">
+            <EntityTypeMapping TypeName="BamdadSimModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="BamdadSimModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sms">
+            <EntityTypeMapping TypeName="BamdadSimModel.Sms">
+              <MappingFragment StoreEntitySet="Sms">
+                <ScalarProperty Name="ReciverId" ColumnName="ReciverId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="SmsContent" ColumnName="SmsContent" />
+                <ScalarProperty Name="SmsTitle" ColumnName="SmsTitle" />
+                <ScalarProperty Name="SmsId" ColumnName="SmsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Charge">
+            <EntityTypeMapping TypeName="BamdadSimModel.Charge">
+              <MappingFragment StoreEntitySet="Charge">
+                <ScalarProperty Name="ChargeStatus" ColumnName="ChargeStatus" />
+                <ScalarProperty Name="ChargePrice" ColumnName="ChargePrice" />
+                <ScalarProperty Name="ChargeId" ColumnName="ChargeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tariff">
+            <EntityTypeMapping TypeName="BamdadSimModel.Tariff">
+              <MappingFragment StoreEntitySet="Tariff">
+                <ScalarProperty Name="SmsTarrif" ColumnName="SmsTarrif" />
+                <ScalarProperty Name="CallTariff" ColumnName="CallTariff" />
+                <ScalarProperty Name="TariffId" ColumnName="TariffId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChargeSim">
+            <EntityTypeMapping TypeName="BamdadSimModel.ChargeSim">
+              <MappingFragment StoreEntitySet="ChargeSim">
+                <ScalarProperty Name="SimId" ColumnName="SimId" />
+                <ScalarProperty Name="ChargeId" ColumnName="ChargeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SimReceipt">
+            <EntityTypeMapping TypeName="BamdadSimModel.SimReceipt">
+              <MappingFragment StoreEntitySet="SimReceipt">
+                <ScalarProperty Name="SimId" ColumnName="SimId" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ReceiptId" ColumnName="ReceiptId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Call">
+            <EntityTypeMapping TypeName="BamdadSimModel.Call">
+              <MappingFragment StoreEntitySet="Call">
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="ReciverId" ColumnName="ReciverId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="CallDuration" ColumnName="CallDuration" />
+                <ScalarProperty Name="CallTitle" ColumnName="CallTitle" />
+                <ScalarProperty Name="CallId" ColumnName="CallId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Simcard">
+            <EntityTypeMapping TypeName="BamdadSimModel.Simcard">
+              <MappingFragment StoreEntitySet="Simcard">
+                <ScalarProperty Name="SimPrice" ColumnName="SimPrice" />
+                <ScalarProperty Name="SimBalance" ColumnName="SimBalance" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="SimActive" ColumnName="SimActive" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="SimId" ColumnName="SimId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

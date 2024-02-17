@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Repository.DTO.ShowChargesVIewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("ایجاد جدید", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ChargeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChargePrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChargeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChargePrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("ویرایش", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("حذف", "Delete", new { id = item.ChargeId })
+
+        </td>
+    </tr>
+}
+
+</table>

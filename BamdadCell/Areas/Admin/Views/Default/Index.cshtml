@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Repository.DTO.GridSimCardViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h4>سیم کارت ها</h4>
+
+<p>
+    @Html.ActionLink("سیم کارت جدید", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SimActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SimType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Simbalance)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SimActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SimType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Simbalance)
+        </td>
+        <td>
+            @Html.ActionLink("ویرایش", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("حذف", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

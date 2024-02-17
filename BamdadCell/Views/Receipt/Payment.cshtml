@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Repository.DTO.ShowReceiptViewModel>
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>پرداخت قبض</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SimCart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <tr>
+                <td>
+                    <input value="@(item.SimCart)" name="SimCart" readonly style="border:0px;"/>
+                </td>
+                <td>
+                    <input value="@(item.Price)" name="Price" readonly style="border:0px;"/>
+                </td>
+                <td>
+                    <input value="@(item.Owner)" name="Owner" readonly style="border:0px;"/>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="پرداخت" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    }
+
+
+</table>

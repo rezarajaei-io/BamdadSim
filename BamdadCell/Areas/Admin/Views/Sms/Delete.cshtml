@@ -1,0 +1,34 @@
+﻿@model Repository.DTO.AdminSmsViewModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    <hr />
+
+    <div class="card text-center">
+        <div class="card-header">
+            حذف!
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">آیا از حذف مطمئن هستید؟</h5>
+            <p class="card-text">با حذف شدن نمیتوانید آن را برگردانید و این امر دائمی خواهد بود</p>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            }
+        </div>
+        <div class="card-footer text-muted">
+            <p color="red">Once deleted, you cannot get it back and it will be permanent</p>
+        </div>
+    </div>
+
+
+</div>

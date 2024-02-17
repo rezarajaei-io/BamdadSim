@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BamdadCell", "BamdadCell.csproj", "{5D910C21-563A-45E7-B38D-B2342054F873}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "..\DataLayer\DataLayer.csproj", "{8A5D4913-23C2-4A91-8FB4-98C2BD06FF3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "..\Repository\Repository.csproj", "{BB8FEA74-80ED-4403-8750-36A28FB67A46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D910C21-563A-45E7-B38D-B2342054F873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D910C21-563A-45E7-B38D-B2342054F873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D910C21-563A-45E7-B38D-B2342054F873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D910C21-563A-45E7-B38D-B2342054F873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A5D4913-23C2-4A91-8FB4-98C2BD06FF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A5D4913-23C2-4A91-8FB4-98C2BD06FF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A5D4913-23C2-4A91-8FB4-98C2BD06FF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A5D4913-23C2-4A91-8FB4-98C2BD06FF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8FEA74-80ED-4403-8750-36A28FB67A46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8FEA74-80ED-4403-8750-36A28FB67A46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8FEA74-80ED-4403-8750-36A28FB67A46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8FEA74-80ED-4403-8750-36A28FB67A46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		SolutionGuid = {B2B61016-4931-41FF-9058-13F5353130F2}
+	EndGlobalSection
+EndGlobal
